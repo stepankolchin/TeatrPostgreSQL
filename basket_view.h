@@ -19,7 +19,8 @@ public:
 
     void setBasket(QSqlQuery * qw);
 
-    void deleteTicket(QString btn_name);
+public slots:
+    void delTicket(QString btn_name);
 
 signals:
     void delTicket(int ticket_id);

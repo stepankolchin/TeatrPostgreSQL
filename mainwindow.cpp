@@ -307,10 +307,52 @@ void MainWindow::updatePwd(QString pwd){
 
 void MainWindow::on_pushButton_basket_clicked()
 {
+    if (db->isOpen()){
+        qw->prepare("SELECT t.ticket_id,p.place_row,p.place_num,s.show_name,p.zal_id,s.show_date,s.show_time FROM public.basket_tickets b\n"
+                    "JOIN public.ticket t ON t.ticket_id=b.ticket_id\n"
+                    "JOIN public.place p ON p.place_id=t.place_id\n"
+                    "JOIN public.show s ON s.show_id=t.show_id\n"
+                    "WHERE t.customer_id="+QString::number(cur_user)+"\n"
+                    "ORDER BY t.ticket_id ASC");
+        if (qw->exec()){
+            basket_form->setBasket(qw);
+            basket_form->exec();
+        }
+        else
+            QMessageBox::warning(this,"о нет","Чтото пошло не так и блаблабла");
 
+    }
 }
 
 void MainWindow::ticketDelete(int ticket_id){
+    if (db->isOpen()){
+        qw->prepare("UPDATE place\n"
+                    "SET place_free=true\n"
+                    "WHERE place_id=(SELECT place_id FROM ticket WHERE ticket_id=:t_id)");
+        qw->bindValue(":t_id",ticket_id);
+        if (qw->exec()){
+            QMessageBox::information(basket_form,"Сработало","СРАБОТАЛО");
+        }
+        else return;
+        qw->prepare("DELETE FROM public.basket_tickets t\n"
+                    "USING public.basket b\n"
+                    "WHERE b.basket_id=t.basket_id AND t.ticket_id=:t_id AND b.customer_id="+QString::number(cur_user));
+        qw->bindValue(":t_id",ticket_id);
+        if (qw->exec()){
+            QMessageBox::information(basket_form,"Хорошо","Билет был удален");
+            qw->prepare("SELECT t.ticket_id,p.place_row,p.place_num,s.show_name,p.zal_id,s.show_date,s.show_time FROM public.basket_tickets b\n"
+                        "JOIN public.ticket t ON t.ticket_id=b.ticket_id\n"
+                        "JOIN public.place p ON p.place_id=t.place_id\n"
+                        "JOIN public.show s ON s.show_id=t.show_id\n"
+                        "WHERE t.customer_id="+QString::number(cur_user)+"\n"
+                        "ORDER BY t.ticket_id ASC");
+            if (qw->exec()){
+                basket_form->setBasket(qw);
+//                QMessageBox::information(basket_form,"Ура","Билет был уда");
+            }
+        }else
+            QMessageBox::warning(basket_form,"О нет...","Что-то пошло не так и билет не был удален");
+    }
 
 }
 void MainWindow::reservePlace(int num_place,int num_zal){

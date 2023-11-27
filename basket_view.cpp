@@ -57,12 +57,12 @@ void basket_view::setBasket(QSqlQuery *qw){
 //                            ui->tableWidget->setItem(i, 5, ti);
 //                    }
         mybutton *buy=new mybutton(this);
-        buy->setText("Места");
+        buy->setText("удалить");
         QString str;
         str.setNum(i);
         buy->setWindowTitle("btn_buy_"+str);
         //                    qDebug()<<"btn_buy"+str;
-        connect(buy,SIGNAL(clicked(QString)),this,SLOT(deleteTicket(QString)));
+        connect(buy,SIGNAL(clicked(QString)),this,SLOT(delTicket(QString)));
 
         ui->tableWidget->setCellWidget(i,7,buy);
         ////                    mas_bool[k]=true;
@@ -76,7 +76,7 @@ void basket_view::on_pushButton_close_clicked()
     this->close();
 }
 
-void basket_view::deleteTicket(QString btn_name){
+void basket_view::delTicket(QString btn_name){
     int row_of_btn=0;
         for (int i=0;i<ui->tableWidget->rowCount();i++)
             if (ui->tableWidget->cellWidget(i,7)->windowTitle()==btn_name){
