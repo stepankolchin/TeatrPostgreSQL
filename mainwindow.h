@@ -25,45 +25,44 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    vhod_register *registration;
+    vhod_register *registration;//диалоговое окно для входа и регистрации
 
-    profile *my_profile;
+    profile *my_profile;//диалоговое окно, в котором можно просмотреть и изменить свои данные
 
-    schema_zal *zal_form;
+    schema_zal *zal_form;//схема залов
 
-    basket_view *basket_form;
+    basket_view *basket_form;//диалоговое окно, отображающее корзину
 
 private slots:
-    void on_pushButton_login_clicked();
+    void on_pushButton_login_clicked();//кнопка залогиниться
 
-    void checkUser(QString login,QString password);
+    void checkUser(QString login,QString password);//функция проверяющая введенные данные при нажатии на кнопку войти
 
-    void addUser(QString name,QString surname,bool sex,QString login,QString pwd);
+    void addUser(QString name,QString surname,bool sex,QString login,QString pwd);//функция, добавляющая нового пользователя в БД
 
-    void on_pushButton_register_clicked();
+    void on_pushButton_register_clicked();//кнопка зарегаться
 
-    void showPlaces(QString btn_name);
+    void showPlaces(QString btn_name);//функция, которая открывает схему зала
 
-    void on_pushButton_profile_clicked();
+    void on_pushButton_profile_clicked();//кнопка профиль
 
-    void on_pushButton_basket_clicked();
+    void on_pushButton_basket_clicked();//кнопка корзина
 
-    void updateData(QString name,QString surname,QString sex,QString nick);
+    void updateData(QString name,QString surname,QString sex,QString nick);//изменение личных данных
 
-    void updatePwd(QString pwd);
+    void updatePwd(QString pwd);//изменение пароля
 
-    void reservePlace(int,int,int);
+    void reservePlace(int,int,int);//резервация места
 
-    void ticketDelete(int ticket_id);
-
+    void ticketDelete(int ticket_id);//удаление билета
 
 private:
     Ui::MainWindow *ui;
-    QSqlDatabase *db;
-    QSqlQuery *qw;
-    int cur_user=0;
-    bool mas_bool[20];
-    QString kostil;
+    QSqlDatabase *db;//указатель на объект базы данных
+    QSqlQuery *qw;//указатель на объект запроса
+    int cur_user=0;//идентификатор пользователя, вошедшего в системе
+    bool mas_bool[20];//вспомогательный массив
+    QString kostil;//используется для того чтобы на ходу изменять схему зала
 
 };
 #endif // MAINWINDOW_H

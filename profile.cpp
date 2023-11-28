@@ -13,6 +13,7 @@ profile::profile(QWidget *parent) :
     ui->lineEdit_pwd->setReadOnly(true);
     ui->pushButton_saveinf->hide();
     ui->pushButton_saveinf_savepwd->hide();
+    this->setWindowTitle("Ваши личные данные");
 }
 
 profile::~profile(){
@@ -84,17 +85,17 @@ void profile::on_pushButton_chpwd_clicked(){
     ui->lineEdit_pwd->setReadOnly(false);
 }
 
-void profile::on_pushButton_saveinf_savepwd_clicked(){
+void profile::on_pushButton_saveinf_savepwd_clicked(){//
     ui->pushButton_chpwd->show();
     ui->pushButton_saveinf_savepwd->hide();
     QString pwd=getPassword();
     emit changePwd(pwd);
 }
 
-void profile::on_pushButton_shpwd_pressed(){
+void profile::on_pushButton_shpwd_pressed(){//нажимаем кнопку показать пароль
     ui->lineEdit_pwd->setEchoMode(QLineEdit::Normal);
 }
 
-void profile::on_pushButton_shpwd_released(){
+void profile::on_pushButton_shpwd_released(){//отпускаем кнопку показать пароль
     ui->lineEdit_pwd->setEchoMode(QLineEdit::Password);
 }

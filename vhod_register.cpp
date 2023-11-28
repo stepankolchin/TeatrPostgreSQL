@@ -98,6 +98,7 @@ void vhod_register::setModeRegistration(){
     ui->label_5->show();
     ui->label_6->show();
     ui->label_7->show();
+    this->setWindowTitle("Регистрация");
 }
 
 void vhod_register::setModeLogin(){
@@ -119,4 +120,5 @@ void vhod_register::setModeLogin(){
     ui->label_5->hide();
     ui->label_6->hide();
     ui->label_7->hide();
+    this->setWindowTitle("Авторизация");
 }
