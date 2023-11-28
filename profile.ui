@@ -6,9 +6,106 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>835</width>
-    <height>485</height>
+    <width>663</width>
+    <height>418</height>
    </rect>
+  </property>
+  <property name="palette">
+   <palette>
+    <active>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>147</red>
+        <green>154</green>
+        <blue>190</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>198</red>
+        <green>221</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>211</red>
+        <green>230</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </active>
+    <inactive>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>147</red>
+        <green>154</green>
+        <blue>190</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>198</red>
+        <green>221</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>211</red>
+        <green>230</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </inactive>
+    <disabled>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>147</red>
+        <green>154</green>
+        <blue>190</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>211</red>
+        <green>230</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>211</red>
+        <green>230</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </disabled>
+   </palette>
+  </property>
+  <property name="font">
+   <font>
+    <family>Times New Roman</family>
+    <pointsize>16</pointsize>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
@@ -17,9 +114,9 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>100</y>
-     <width>113</width>
-     <height>21</height>
+     <y>90</y>
+     <width>161</width>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -27,9 +124,9 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>150</y>
-     <width>113</width>
-     <height>21</height>
+     <y>140</y>
+     <width>161</width>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -37,9 +134,9 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>200</y>
-     <width>113</width>
-     <height>21</height>
+     <y>190</y>
+     <width>161</width>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -47,20 +144,23 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>250</y>
-     <width>113</width>
-     <height>21</height>
+     <y>240</y>
+     <width>161</width>
+     <height>31</height>
     </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_chpwd">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>310</y>
-     <width>131</width>
-     <height>21</height>
+     <x>350</x>
+     <y>300</y>
+     <width>201</width>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
    </property>
    <property name="text">
     <string>Изменить пароль</string>
@@ -69,11 +169,14 @@
   <widget class="QPushButton" name="pushButton_chinf">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>310</y>
-     <width>101</width>
-     <height>21</height>
+     <x>60</x>
+     <y>300</y>
+     <width>211</width>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
    </property>
    <property name="text">
     <string>Изменить данные</string>
@@ -82,10 +185,10 @@
   <widget class="QLineEdit" name="lineEdit_pwd">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>270</y>
-     <width>131</width>
-     <height>21</height>
+     <x>350</x>
+     <y>230</y>
+     <width>201</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -98,11 +201,14 @@
   <widget class="QPushButton" name="pushButton_shpwd">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>270</y>
+     <x>570</x>
+     <y>240</y>
      <width>21</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
    </property>
    <property name="text">
     <string/>
@@ -117,14 +223,20 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>230</x>
      <y>0</y>
-     <width>221</width>
+     <width>241</width>
      <height>71</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>24</pointsize>
+    </font>
+   </property>
    <property name="text">
-    <string>личный кабинет</string>
+    <string>Личный кабинет</string>
    </property>
   </widget>
   <widget class="Line" name="line">
@@ -143,27 +255,104 @@
   <widget class="QPushButton" name="pushButton_saveinf">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>310</y>
-     <width>80</width>
-     <height>21</height>
+     <x>60</x>
+     <y>330</y>
+     <width>211</width>
+     <height>31</height>
     </rect>
    </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
    <property name="text">
-    <string>сохранить</string>
+    <string>Сохранить</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_saveinf_savepwd">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>310</y>
-     <width>80</width>
-     <height>21</height>
+     <x>350</x>
+     <y>330</y>
+     <width>201</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>Сохранить</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>111</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>сохранить</string>
+    <string>Имя:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>140</y>
+     <width>111</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Фамилия:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>190</y>
+     <width>111</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Пол:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>240</y>
+     <width>111</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Никнэйм:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>331</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Вы находитесь в режиме редактирования</string>
    </property>
   </widget>
  </widget>
