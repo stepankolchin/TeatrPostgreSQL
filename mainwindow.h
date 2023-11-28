@@ -48,7 +48,7 @@ private slots:
 
     void updatePwd(QString pwd);
 
-    void reservePlace(int,int);
+    void reservePlace(int,int,int);
 
     void ticketDelete(int ticket_id);
 
@@ -59,6 +59,7 @@ private:
     QSqlQuery *qw;
     int cur_user=0;
     bool mas_bool[20];
+    QString kostil;
 
 };
 #endif // MAINWINDOW_H

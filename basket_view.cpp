@@ -6,6 +6,7 @@ basket_view::basket_view(QWidget *parent) :
     ui(new Ui::basket_view)
 {
     ui->setupUi(this);
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 basket_view::~basket_view()
@@ -60,8 +61,7 @@ void basket_view::setBasket(QSqlQuery *qw){
         buy->setText("удалить");
         QString str;
         str.setNum(i);
-        buy->setWindowTitle("btn_buy_"+str);
-        //                    qDebug()<<"btn_buy"+str;
+        buy->setWindowTitle("btn_del_"+str);
         connect(buy,SIGNAL(clicked(QString)),this,SLOT(delTicket(QString)));
 
         ui->tableWidget->setCellWidget(i,7,buy);
