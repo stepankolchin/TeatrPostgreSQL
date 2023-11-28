@@ -24,9 +24,13 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
     vhod_register *registration;
+
     profile *my_profile;
+
     schema_zal *zal_form;
+
     basket_view *basket_form;
 
 private slots:

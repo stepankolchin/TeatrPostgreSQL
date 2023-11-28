@@ -8,8 +8,7 @@ vhod_register::vhod_register(QWidget *parent) :
     ui->setupUi(this);
 }
 
-vhod_register::~vhod_register()
-{
+vhod_register::~vhod_register(){
     delete ui;
 }
 
@@ -28,16 +27,13 @@ void vhod_register::on_pushButton_login_clicked()
     emit logining(login,pwd);
 }
 
-
 void vhod_register::on_pushButton_close_clicked()
 {
     clear();
     this->close();
 }
 
-
-void vhod_register::on_pushButton_clicked()
-{
+void vhod_register::on_pushButton_clicked(){
     if (ui->lineEdit_Name->text().isEmpty()){
         QMessageBox::warning(this,"Внимание","Поле 'Имя' не должно быть пустым!",QMessageBox::Ok);
         return;
@@ -46,13 +42,10 @@ void vhod_register::on_pushButton_clicked()
         QMessageBox::warning(this,"Внимание","Поле 'Фамилия' не должно быть пустым!",QMessageBox::Ok);
         return;
     }
-
-
     if (ui->lineEdit_new_login->text().isEmpty()){
         QMessageBox::warning(this,"Внимание","Поле 'Логин' не должно быть пустым!",QMessageBox::Ok);
         return;
     }
-
     if (ui->lineEdit_new_pwd->text().isEmpty()){
         QMessageBox::warning(this,"Внимание","Поле 'Пароль' не должно быть пустым!",QMessageBox::Ok);
         return;
@@ -70,7 +63,6 @@ void vhod_register::on_pushButton_clicked()
     bool sex=ui->radioButton->isChecked();
     QString login=ui->lineEdit_new_login->text();
     QString pwd=ui->lineEdit_new_pwd->text();
-
     emit registration(name,surname,sex,login,pwd);
 }
 
@@ -82,8 +74,6 @@ void vhod_register::clear(){
     ui->lineEdit_new_pwd->clear();
     ui->lineEdit_new_pwd_2->clear();
     ui->lineEdit_pwd->clear();
-
-
 }
 void vhod_register::closeEvent(QCloseEvent *event){
     clear();
@@ -122,7 +112,6 @@ void vhod_register::setModeLogin(){
     ui->radioButton->hide();
     ui->radioButton_2->hide();
     ui->pushButton->hide();
-
     ui->label->show();
     ui->label_2->show();
     ui->label_3->hide();

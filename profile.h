@@ -15,7 +15,6 @@ public:
     explicit profile(QWidget *parent = nullptr);
     ~profile();
 
-
     void setName(QString name);
 
     void setSurname(QString surname);
@@ -23,8 +22,8 @@ public:
     void setSex(QString sex);
 
     void setNick(QString nick);
-    void setPassword(QString pwd);
 
+    void setPassword(QString pwd);
 
     QString getName();
 
@@ -49,7 +48,6 @@ private slots:
     void on_pushButton_chpwd_clicked();
 
     void on_pushButton_saveinf_savepwd_clicked();
-
 
     void on_pushButton_shpwd_pressed();
 

@@ -7,11 +7,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     db=nullptr;
-
     if (db!=nullptr){
         db->close();
         QMessageBox::information(this,"Внимание","База данных не открыта",QMessageBox::Ok);
-
     }
     else{
         db= new QSqlDatabase(QSqlDatabase::addDatabase("QPSQL"));
@@ -26,21 +24,15 @@ MainWindow::MainWindow(QWidget *parent)
         db->setPassword(pwd);
         db->setPort(5432);
         qw=new QSqlQuery(*db);
-        for (int i=0;i<20;i++){
+        for (int i=0;i<20;i++)
             mas_bool[i]=false;
-        }
-
-
     }
-
     if (!db->open()){
         QMessageBox::information(this,"Ошибка",db->lastError().text(),QMessageBox::Ok);
         db=nullptr;
-
     }
     if (db->isOpen()){
         *qw=db->exec("SELECT show_id,show_name,show_description,show_date,show_time,zal_id FROM public.show s\n");
-
         ui->tableWidget->setRowCount(qw->size());
         ui->tableWidget->setColumnCount(7);
         QStringList list={"Идентификатор","Название спектакля","Описание","Дата","Время","Номер зала","Просмотр мест"};
@@ -49,9 +41,9 @@ MainWindow::MainWindow(QWidget *parent)
             for (int j=0;j<ui->tableWidget->columnCount();j++)
                 if (ui->tableWidget->item(i,j)==nullptr)
                 {
-                        QTableWidgetItem * ti;
-                        ti = new QTableWidgetItem;
-                        ui->tableWidget->setItem(i, j, ti);
+                    QTableWidgetItem * ti;
+                    ti = new QTableWidgetItem;
+                    ui->tableWidget->setItem(i, j, ti);
                 }
 
         int j=0;
@@ -69,42 +61,33 @@ MainWindow::MainWindow(QWidget *parent)
                 i++;
 
             }
-            if (i==6){
-//                    if (ui->tableWidget->item(i,6)==nullptr)
-//                    {
-//                            QTableWidgetItem * ti;
-//                            ti = new QTableWidgetItem;
-//                            ui->tableWidget->setItem(i, 6, ti);
-//                    }
+            if (i==6)
                 for (int k=0;k<20;k++){
-                    if (mas_bool[k]){
+                    if (mas_bool[k])
                         continue;
-                    }
                     else{
-                    mybutton *buy=new mybutton(this);
-                    buy->setText("Места");
-                    QString str;
-                    str.setNum(k);
-                    buy->setWindowTitle("btn_buy"+str);
-                    qDebug()<<"btn_buy"+str;
-                    connect(buy,SIGNAL(clicked(QString)),this,SLOT(showPlaces(QString)));
-
-                    ui->tableWidget->setCellWidget(j,i,buy);
-                    mas_bool[k]=true;
-                    break;
+                        mybutton *buy=new mybutton(this);
+                        buy->setText("Места");
+                        QString str;
+                        str.setNum(k);
+                        buy->setWindowTitle("btn_buy"+str);
+                        qDebug()<<"btn_buy"+str;
+                        connect(buy,SIGNAL(clicked(QString)),this,SLOT(showPlaces(QString)));
+                        ui->tableWidget->setCellWidget(j,i,buy);
+                        mas_bool[k]=true;
+                        break;
                     }
                 }
-            }
-
             j++;
         }
-
     }
     ui->tableWidget->hideColumn(6);
+
     registration=new vhod_register(this);
     my_profile=new profile(this);
     zal_form=new schema_zal(this);
     basket_form=new basket_view(this);
+
     connect(zal_form,SIGNAL(placeReserved(int,int,int)),this,SLOT(reservePlace(int,int,int)));
     connect(basket_form,SIGNAL(delTicket(int)),this,SLOT(ticketDelete(int)));
     connect(registration,SIGNAL(logining(QString,QString)),this,SLOT(checkUser(QString,QString)));
@@ -124,6 +107,7 @@ MainWindow::~MainWindow()
     delete registration;
     delete my_profile;
     delete zal_form;
+    delete basket_form;
 }
 
 
@@ -135,26 +119,19 @@ void MainWindow::on_pushButton_login_clicked()
     }
     else{
         cur_user=0;
-//        for (int i=0;i<ui->tableWidget->rowCount();i++){
-//            if (ui->tableWidget->item(i,6)!=nullptr){
-//                ui->tableWidget->item(i,6)->;
-////                ui->tableWidget->item(i,6)=nullptr;
-//            }
-//        }
         ui->tableWidget->hideColumn(6);
-//        ui->tableWidget->setColumnCount(6);
         ui->pushButton_login->setText("Войти");
         ui->label_2->show();
         ui->pushButton_register->show();
         ui->pushButton_basket->hide();
         ui->pushButton_profile->hide();
-
     }
 }
 
 void MainWindow::checkUser(QString login,QString password){
     if (db->isOpen()){
-        *qw=db->exec("SELECT customer_name,customer_surname,customer_login,customer_password,customer_id FROM customer WHERE customer_login='"+login+"'");
+        *qw=db->exec("SELECT customer_name,customer_surname,customer_login,customer_password,customer_id FROM customer\n"
+                     "WHERE customer_login='"+login+"'");
         qw->next();
         if (!qw->value(0).isNull()){
             if (qw->value(3).toString()==password){
@@ -162,9 +139,7 @@ void MainWindow::checkUser(QString login,QString password){
                 registration->close();
                 ui->tableWidget->show();
                 ui->label->show();
-//                ui->label_Cur_user->show();
                 cur_user=qw->value(4).toInt();
-//                ui->label_Cur_user->setText("Вы зашли в систему под именем " + qw->value(0).toString()+ " "+qw->value(1).toString());
                 ui->pushButton_login->setText("Выйти");
                 ui->label_2->hide();
                 ui->pushButton_register->hide();
@@ -172,17 +147,12 @@ void MainWindow::checkUser(QString login,QString password){
                 ui->pushButton_basket->show();
                 ui->pushButton_basket->setText("Корзина (0)");
                 ui->tableWidget->showColumn(6);
-
             }
-            else{
+            else
                 QMessageBox::warning(registration,"Внимание","Неправильный пароль");
-
-            }
         }
-        else{
+        else
             QMessageBox::warning(registration,"Внимание","Неправильная почта");
-
-        }
     }
 }
 
@@ -196,7 +166,6 @@ void MainWindow::addUser(QString name,QString surname,bool sex,QString login,QSt
                 QMessageBox::warning(registration,"Внимание","Пользователь с таким логином уже существует! Придумайте другой логин");
                 return;
             }
-
         }
         else return;
         qw->prepare("INSERT INTO customer (customer_name,customer_surname,customer_male,customer_login,customer_password)\n"
@@ -224,9 +193,6 @@ void MainWindow::addUser(QString name,QString surname,bool sex,QString login,QSt
         qw->bindValue(":c_id",cur_user);
         if (qw->exec()){
             QMessageBox::information(registration,"Поздравляем","Вы успешно зарегистрировались и вошли!");
-//            *qw=db->exec("SELECT customer_name,customer_surname,customer_login,customer_password,customer_id FROM customer WHERE customer_login='"+login+"'");
-//            qw->next();
-//            cur_user=qw->value(4).toInt();
             ui->pushButton_register->hide();
             ui->pushButton_login->setText("Выйти");
             ui->label->hide();
@@ -235,31 +201,9 @@ void MainWindow::addUser(QString name,QString surname,bool sex,QString login,QSt
             ui->tableWidget->showColumn(6);
             registration->clear();
             registration->close();
-//            for(int i=0;i<ui->tableWidget->rowCount();i++){
-//                for (int k=0;k<20;k++){
-//                    if (mas_bool[k]){
-//                        continue;
-//                    }
-//                    else{
-//                    mybutton *buy=new mybutton(this);
-//                    buy->setText("Места");
-//                    QString str;
-//                    str.setNum(k);
-//                    buy->setWindowTitle("btn_buy"+str);
-//                    qDebug()<<"btn_buy"+str;
-//                    connect(buy,SIGNAL(clicked(QString)),this,SLOT(showPlaces(QString)));
-
-//                    ui->tableWidget->setCellWidget(i,6,buy);
-//                    mas_bool[k]=true;
-//                    break;
-//                    }
-//                }
-//            }
         }
-        else{
+        else
             QMessageBox::warning(registration,"О нет","Что-то пошло не так");
-
-        }
     }
 }
 
@@ -267,7 +211,6 @@ void MainWindow::on_pushButton_register_clicked()
 {
     registration->setModeRegistration();
     registration->exec();
-
 }
 
 void MainWindow::showPlaces(QString num_of_btn){
@@ -291,7 +234,6 @@ void MainWindow::showPlaces(QString num_of_btn){
         zal_form->setZalShow(zal,show);
         if (!zal_form->isActiveWindow())
             zal_form->exec();
-
     }
 }
 
@@ -344,16 +286,12 @@ void MainWindow::updatePwd(QString pwd){
                     "SET customer_password=:pwd\n"
                     "WHERE customer_id="+QString::number(cur_user));
         qw->bindValue(":pwd",pwd);
-        if (qw->exec()){
+        if (qw->exec())
             QMessageBox::information(my_profile,"Отлично","Персональные данные были обновлены");
-        }
         else
             QMessageBox::warning(my_profile,"о нет","Что-то пошло не так");
     }
 }
-
-
-
 
 void MainWindow::on_pushButton_basket_clicked()
 {
@@ -370,7 +308,6 @@ void MainWindow::on_pushButton_basket_clicked()
         }
         else
             QMessageBox::warning(this,"о нет","Чтото пошло не так и блаблабла");
-
     }
 }
 
@@ -403,14 +340,11 @@ void MainWindow::ticketDelete(int ticket_id){
                         "JOIN public.show s ON s.show_id=t.show_id\n"
                         "WHERE t.customer_id="+QString::number(cur_user)+"\n"
                         "ORDER BY t.ticket_id ASC");
-            if (qw->exec()){
+            if (qw->exec())
                 basket_form->setBasket(qw);
-//                QMessageBox::information(basket_form,"Ура","Билет был уда");
-            }
         }else
             QMessageBox::warning(basket_form,"О нет...","Что-то пошло не так и билет не был удален");
     }
-
 }
 void MainWindow::reservePlace(int num_place,int num_zal, int show_id){
     int place_id=(num_zal-1)*30+num_place+1;
@@ -457,7 +391,6 @@ void MainWindow::reservePlace(int num_place,int num_zal, int show_id){
                     "VALUES(:b_id,:t_id)");
         qw->bindValue(":t_id",ticket_id);
         qw->bindValue(":b_id",basket_id);
-
         if (qw->exec()){
             QMessageBox::information(zal_form,"Хорошо","Билет был добавлен");
             showPlaces(kostil);

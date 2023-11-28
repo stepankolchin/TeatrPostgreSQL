@@ -25,7 +25,6 @@ public slots:
 signals:
     void delTicket(int ticket_id);
 
-
 private slots:
     void on_pushButton_close_clicked();
 

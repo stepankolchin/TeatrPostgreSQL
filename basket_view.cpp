@@ -24,9 +24,9 @@ void basket_view::setBasket(QSqlQuery *qw){
         for (int j=0;j<ui->tableWidget->columnCount();j++)
             if (ui->tableWidget->item(i,j)==nullptr)
             {
-                    QTableWidgetItem * ti;
-                    ti = new QTableWidgetItem;
-                    ui->tableWidget->setItem(i, j, ti);
+                QTableWidgetItem * ti;
+                ti = new QTableWidgetItem;
+                ui->tableWidget->setItem(i, j, ti);
             }
     int j=0;
     while(qw->next()){
@@ -46,29 +46,14 @@ void basket_view::setBasket(QSqlQuery *qw){
     }
     ui->tableWidget->insertColumn(7);
     for (int i=0;i<ui->tableWidget->rowCount();i++){
-////                for (int k=0;k<20;k++){
-////                  if (mas_bool[k]){
-////                        continue;
-////                    }
-////                    else{
-//                    if (ui->tableWidget->item(i,5)==nullptr)
-//                    {
-//                            QTableWidgetItem * ti;
-//                            ti = new QTableWidgetItem;
-//                            ui->tableWidget->setItem(i, 5, ti);
-//                    }
         mybutton *buy=new mybutton(this);
         buy->setText("удалить");
         QString str;
         str.setNum(i);
         buy->setWindowTitle("btn_del_"+str);
         connect(buy,SIGNAL(clicked(QString)),this,SLOT(delTicket(QString)));
-
         ui->tableWidget->setCellWidget(i,7,buy);
-        ////                    mas_bool[k]=true;
-        ////                    break;
     }
-
 }
 
 void basket_view::on_pushButton_close_clicked()
@@ -78,13 +63,12 @@ void basket_view::on_pushButton_close_clicked()
 
 void basket_view::delTicket(QString btn_name){
     int row_of_btn=0;
-        for (int i=0;i<ui->tableWidget->rowCount();i++)
-            if (ui->tableWidget->cellWidget(i,7)->windowTitle()==btn_name){
-                row_of_btn=i;
-                break;
-            }
+    for (int i=0;i<ui->tableWidget->rowCount();i++)
+        if (ui->tableWidget->cellWidget(i,7)->windowTitle()==btn_name){
+            row_of_btn=i;
+            break;
+        }
     int ticket_id=ui->tableWidget->item(row_of_btn,0)->text().toInt();
     emit delTicket(ticket_id);
 
 }
-
