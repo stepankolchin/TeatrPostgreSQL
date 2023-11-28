@@ -31,7 +31,7 @@ bool labelClicker::eventFilter(QObject *lbl,QEvent *event){
                                             QMessageBox::Ok|QMessageBox::Cancel,parent_).exec();
                         if (res==QMessageBox::Ok){
                             mas_bool[kal]=false;
-                            QMessageBox::information(parent_,"Ура","Данное место было добавлено в корзину");//это хорошо бы убрать, сделать просто отсылку сигнала и там где будет происходить запись в бд уже писать получилоьс или нет
+/*                            QMessageBox::information(parent_,"Ура","Данное место было добавлено в корзину");*///это хорошо бы убрать, сделать просто отсылку сигнала и там где будет происходить запись в бд уже писать получилоьс или нет
                             emit placeReserved(kal);
                             return false;
                         }
