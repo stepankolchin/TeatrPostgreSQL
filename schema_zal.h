@@ -22,11 +22,15 @@ public:
     ~schema_zal();
 
     void setMassiv(bool mas[]);
-    void setZal(int);
+    void setZalShow(int,int);
+
+
+    int show=0;
+
 public slots:
     void reservePlace(int);
 signals:
-    void placeReserved(int,int);
+    void placeReserved(int,int,int);
 private:
     Ui::schema_zal *ui;
 
@@ -35,7 +39,6 @@ private:
     QObject *mas[30];
     bool mas_bool[30];
     labelClicker *mas_ev_filters[30];
-
 
     void makeRed(QWidget *lbl);
     void makeGreen(QWidget *lbl);

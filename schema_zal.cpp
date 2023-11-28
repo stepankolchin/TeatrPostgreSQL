@@ -61,8 +61,9 @@ void schema_zal::makeGreen(QWidget *lbl){
     lbl->setPalette(pal);
 
 }
-void schema_zal::setZal(int zal){
+void schema_zal::setZalShow(int zal, int show_id){
     ui->label_31->setText(QString::number(zal));
+    show=show_id;
 }
 //bool schema_zal::eventFilter(QObject *lbl,QEvent *event){
 //    for (int i = 0; i < 30; i++) {
@@ -96,7 +97,7 @@ void schema_zal::setZal(int zal){
 
 //}
 void schema_zal::reservePlace(int num_place){
-    emit placeReserved(num_place,ui->label_31->text().toInt());
+    emit placeReserved(num_place,ui->label_31->text().toInt(),show);
 }
 
 
