@@ -6,14 +6,17 @@ basket_view::basket_view(QWidget *parent) :
     ui(new Ui::basket_view)
 {
     ui->setupUi(this);
-    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);//чтобы нельзя было изменять таблицу
+    ui->tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    this->setWindowTitle("Список ваших билетов");
+//    ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 }
 
 basket_view::~basket_view()
 {
     delete ui;
 }
-
 
 void basket_view::setBasket(QSqlQuery *qw){
     ui->tableWidget->setRowCount(qw->size());
@@ -31,7 +34,7 @@ void basket_view::setBasket(QSqlQuery *qw){
     int j=0;
     while(qw->next()){
         int i=0;
-        while(!qw->value(i).isNull()){
+        while(i!=7){
             if (i==6){
                 QString time=qw->value(i).toString();
                 time.remove(4,7);
