@@ -12,6 +12,8 @@
 #include <mybutton.h>
 #include <labelclicker.h>
 #include <basket_view.h>
+#include <addshowdialogue.h>
+#include <deleteshowdialogue.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -32,6 +34,11 @@ public:
     schema_zal *zal_form;//схема залов
 
     basket_view *basket_form;//диалоговое окно, отображающее корзину
+
+    addShowDialogue *addShow_form;//диалоговое окно для добавления спектакля
+
+    deleteShowDialogue *delShow_form;//диалоговое окно для удаления спектаклей
+
 
 private slots:
     void on_pushButton_login_clicked();//кнопка залогиниться
@@ -55,6 +62,16 @@ private slots:
     void reservePlace(int,int,int);//резервация места
 
     void ticketDelete(int ticket_id);//удаление билета
+
+    void setAdminInterface();//настройка интерфейса админа
+
+    void on_pushButton_addShow_clicked();
+
+    void on_pushButton_deleteShow_clicked();
+
+    void addSpectacle(QString name,QString description,QString date,QString time,int zal);//добавление спектакля админом
+
+    void delSpectacle(int);//удаление спектаклей админом
 
 private:
     Ui::MainWindow *ui;
