@@ -21,7 +21,7 @@ basket_view::~basket_view()
 void basket_view::setBasket(QSqlQuery *qw){
     ui->tableWidget->setRowCount(qw->size());
     ui->tableWidget->setColumnCount(7);
-    QStringList list={"Порядковый номер билета","Номер ряда","Номер места","Название спектакля","Номер зала","Дата спектакля","Время спектакля"};
+    QStringList list={"Номер билета","Номер ряда","Номер места","Название спектакля","Номер зала","Дата спектакля","Время спектакля"};
     ui->tableWidget->setHorizontalHeaderLabels(list);
     for(int i=0;i<ui->tableWidget->rowCount();i++)
         for (int j=0;j<ui->tableWidget->columnCount();j++)
@@ -65,6 +65,11 @@ void basket_view::on_pushButton_close_clicked()
 }
 
 void basket_view::delTicket(QString btn_name){
+    int res=QMessageBox(QMessageBox::Icon::Information,"Внимание", "Вы точно хотите удалить данный билет?",
+                        QMessageBox::Ok|QMessageBox::Cancel,this).exec();//спрашиваем хотим ли положить в корзину
+    if (res!=QMessageBox::Ok){//если да
+        return;
+    }
     int row_of_btn=0;
     for (int i=0;i<ui->tableWidget->rowCount();i++)
         if (ui->tableWidget->cellWidget(i,7)->windowTitle()==btn_name){

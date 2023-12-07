@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <mybutton.h>
 #include <QtSql/QSqlQuery>
+#include <QMessageBox>
 
 namespace Ui {
 class basket_view;
