@@ -9,7 +9,9 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    addshowdialogue.cpp \
     basket_view.cpp \
+    deleteshowdialogue.cpp \
     labelclicker.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -19,7 +21,9 @@ SOURCES += \
     vhod_register.cpp
 
 HEADERS += \
+    addshowdialogue.h \
     basket_view.h \
+    deleteshowdialogue.h \
     labelclicker.h \
     mainwindow.h \
     mybutton.h \
@@ -28,7 +32,9 @@ HEADERS += \
     vhod_register.h
 
 FORMS += \
+    addshowdialogue.ui \
     basket_view.ui \
+    deleteshowdialogue.ui \
     mainwindow.ui \
     profile.ui \
     schema_zal.ui \
