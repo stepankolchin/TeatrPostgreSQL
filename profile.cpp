@@ -13,6 +13,12 @@ profile::profile(QWidget *parent) :
     ui->lineEdit_pwd->setReadOnly(true);
     ui->pushButton_saveinf->hide();
     ui->pushButton_saveinf_savepwd->hide();
+    ui->lineEdit_name->setFocusPolicy(Qt::NoFocus);
+    ui->lineEdit_surname->setFocusPolicy(Qt::NoFocus);
+    ui->lineEdit_sex->setFocusPolicy(Qt::NoFocus);
+    ui->lineEdit_nick->setFocusPolicy(Qt::NoFocus);
+    ui->lineEdit_pwd->setFocusPolicy(Qt::NoFocus);
+    ui->label_6->hide();
     this->setWindowTitle("Ваши личные данные");
 }
 
@@ -62,6 +68,14 @@ void profile::on_pushButton_chinf_clicked(){
     ui->lineEdit_surname->setReadOnly(false);
     ui->lineEdit_sex->setReadOnly(false);
     ui->lineEdit_nick->setReadOnly(false);
+    ui->lineEdit_name->setFocusPolicy(Qt::StrongFocus);
+    ui->lineEdit_surname->setFocusPolicy(Qt::StrongFocus);
+    ui->lineEdit_sex->setFocusPolicy(Qt::StrongFocus);
+    ui->lineEdit_nick->setFocusPolicy(Qt::StrongFocus);
+    ui->label_6->show();
+    ui->label_6->setText(ui->label_6->text()+" логина");
+    ui->pushButton_chpwd->hide();
+//    ui->lineEdit_pwd->setFocusPolicy(Qt::StrongFocus);
 }
 
 
@@ -76,6 +90,14 @@ void profile::on_pushButton_saveinf_clicked(){
     ui->lineEdit_surname->setReadOnly(true);
     ui->lineEdit_sex->setReadOnly(true);
     ui->lineEdit_nick->setReadOnly(true);
+    ui->lineEdit_name->setFocusPolicy(Qt::NoFocus);
+    ui->lineEdit_surname->setFocusPolicy(Qt::NoFocus);
+    ui->lineEdit_sex->setFocusPolicy(Qt::NoFocus);
+    ui->lineEdit_nick->setFocusPolicy(Qt::NoFocus);
+    ui->label_6->hide();
+    ui->label_6->setText(ui->label_6->text().left(37));
+    ui->pushButton_chpwd->show();
+    //    ui->lineEdit_pwd->setFocusPolicy(Qt::NoFocus);
     emit changeData(name,surname,sex,nick);
 }
 
@@ -83,12 +105,24 @@ void profile::on_pushButton_chpwd_clicked(){
     ui->pushButton_chpwd->hide();
     ui->pushButton_saveinf_savepwd->show();
     ui->lineEdit_pwd->setReadOnly(false);
+    ui->label_6->show();
+    ui->label_6->setText(ui->label_6->text()+" пароля");
+    ui->pushButton_chinf->hide();
+//    ui->lineEdit_name->setFocusPolicy(Qt::StrongFocus);
+//    ui->lineEdit_surname->setFocusPolicy(Qt::StrongFocus);
+//    ui->lineEdit_sex->setFocusPolicy(Qt::StrongFocus);
+//    ui->lineEdit_nick->setFocusPolicy(Qt::StrongFocus);
+    ui->lineEdit_pwd->setFocusPolicy(Qt::StrongFocus);
 }
 
 void profile::on_pushButton_saveinf_savepwd_clicked(){//
     ui->pushButton_chpwd->show();
     ui->pushButton_saveinf_savepwd->hide();
     QString pwd=getPassword();
+    ui->lineEdit_pwd->setFocusPolicy(Qt::NoFocus);
+    ui->label_6->hide();
+    ui->label_6->setText(ui->label_6->text().left(37));
+    ui->pushButton_chinf->show();
     emit changePwd(pwd);
 }
 
