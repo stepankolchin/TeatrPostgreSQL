@@ -159,6 +159,58 @@ void MainWindow::checkUser(QString login,QString password){//функция пр
                 QMessageBox::information(registration,"Ура","Вход выполнен!");//сообщение
                 registration->close();//закрытие диал окна
                 ui->tableWidget->show();//настойка интерфейса
+                *qw=db->exec("SELECT show_id,show_name,show_description,show_date,show_time,zal_id FROM public.show s\n");//выбираем нужные поля из таблицы спектаклей
+                ui->tableWidget->setRowCount(qw->size());//устанавливаем количесвто строк, которые вернул запрос
+                ui->tableWidget->setColumnCount(7);
+                QStringList list={"Идентификатор спектакля","Название спектакля","Описание","Дата","Время","Номер зала","Просмотр мест"};//названия столбцов
+                ui->tableWidget->setHorizontalHeaderLabels(list);
+                for(int i=0;i<ui->tableWidget->rowCount();i++)
+                    for (int j=0;j<ui->tableWidget->columnCount();j++)
+                        if (ui->tableWidget->item(i,j)==nullptr)//выделяем память для каждой ячейки если она не выделена
+                        {
+                            QTableWidgetItem * ti;
+                            ti = new QTableWidgetItem;
+                            ui->tableWidget->setItem(i, j, ti);
+                        }
+                int j=0;//индекс для первого цикла
+                while(qw->next()){//в условии осуществляем переход на следующую строку полученного запроса
+                    int i=0;//индекс для второго цикла
+                    while(i<6){//всего 6 полей в запросе
+
+                        if (i==4){//если это время - убираем секунды и доли секунд
+                            QString time=qw->value(i).toString();
+                            time.remove(4,7);
+                            ui->tableWidget->item(j,i)->setText(time);
+                            i++;
+                            continue;
+                        }
+
+                        ui->tableWidget->item(j,i)->setText(qw->value(i).toString());//если это не время то как есть
+                        if (i!=2){
+                            ui->tableWidget->item(j,i)->setTextAlignment(Qt::AlignHCenter);
+                            ui->tableWidget->item(j,i)->setTextAlignment(Qt::AlignVCenter);
+                        }
+                        i++;//шаг
+                    }
+                    if (i==6)//для поля с кнопкой
+                        for (int k=0;k<20;k++){//максимум можно 20 шоу
+                            if (mas_bool[k])//для нумерации кнопок
+                                continue;
+                            else{
+                                mybutton *buy=new mybutton(this);//создаем собств класс кнопки
+                                buy->setText("Места");//надпись на кнопке
+                                QString str;
+                                str.setNum(k);
+                                buy->setWindowTitle("btn_buy"+str);//название виджета кнопки(используется для того чтобы понять, в какой строке была нажата кнопка
+                                connect(buy,SIGNAL(clicked(QString)),this,SLOT(showPlaces(QString)));//связываем переопределенный сигнал нажатия на кнопку с функцией
+                                ui->tableWidget->setCellWidget(j,i,buy);//вставляем кнопку в соответсвующую ячейку
+                                mas_bool[k]=true;
+                                break;
+                            }
+                        }
+                    j++;//шаг
+                }
+//            ui->tableWidget->hideColumn(6);//прячем столбец с кнопками
                 ui->label->show();
                 cur_user=qw->value(4).toInt();
                 ui->pushButton_login->setText("Выйти");
@@ -173,7 +225,7 @@ void MainWindow::checkUser(QString login,QString password){//функция пр
                 ui->pushButton_basket->show();
                 qw->prepare("SELECT COUNT(*) FROM public.basket_tickets\n"
                             "WHERE basket_id=(SELECT basket_id FROM public.basket WHERE customer_id=:c_id)");//для красивой кнопки корзина, узнаем сколько сейчас в  корзине билетов
-
+                qw->bindValue(":c_id",cur_user);
                 qw->exec();
                 qw->next();
                 ui->pushButton_basket->setText("Билеты ("+QString::number(qw->value(0).toInt())+")");
@@ -448,7 +500,7 @@ void MainWindow::reservePlace(int num_place,int num_zal, int show_id){//функ
     }
 }
 void MainWindow::setAdminInterface(){
-    ui->tableWidget->hide();
+//    ui->tableWidget->hide();
     ui->label->hide();
     ui->label_admin->show();
     ui->pushButton_addShow->show();
@@ -488,6 +540,60 @@ void MainWindow::addSpectacle(QString name,QString description,QString date,QStr
         qw->bindValue(":zal",zal);
         if (qw->exec()){
             QMessageBox::information(addShow_form,"Хорошо","Спектакль был добавлен");
+
+            *qw=db->exec("SELECT show_id,show_name,show_description,show_date,show_time,zal_id FROM public.show s\n");//выбираем нужные поля из таблицы спектаклей
+            ui->tableWidget->setRowCount(qw->size());//устанавливаем количесвто строк, которые вернул запрос
+            ui->tableWidget->setColumnCount(7);
+            QStringList list={"Идентификатор спектакля","Название спектакля","Описание","Дата","Время","Номер зала","Просмотр мест"};//названия столбцов
+            ui->tableWidget->setHorizontalHeaderLabels(list);
+            for(int i=0;i<ui->tableWidget->rowCount();i++)
+                for (int j=0;j<ui->tableWidget->columnCount();j++)
+                    if (ui->tableWidget->item(i,j)==nullptr)//выделяем память для каждой ячейки если она не выделена
+                    {
+                        QTableWidgetItem * ti;
+                        ti = new QTableWidgetItem;
+                        ui->tableWidget->setItem(i, j, ti);
+                    }
+            int j=0;//индекс для первого цикла
+            while(qw->next()){//в условии осуществляем переход на следующую строку полученного запроса
+                int i=0;//индекс для второго цикла
+                while(i<6){//всего 6 полей в запросе
+
+                    if (i==4){//если это время - убираем секунды и доли секунд
+                        QString time=qw->value(i).toString();
+                        time.remove(4,7);
+                        ui->tableWidget->item(j,i)->setText(time);
+                        i++;
+                        continue;
+                    }
+
+                    ui->tableWidget->item(j,i)->setText(qw->value(i).toString());//если это не время то как есть
+                    if (i!=2){
+                        ui->tableWidget->item(j,i)->setTextAlignment(Qt::AlignHCenter);
+                        ui->tableWidget->item(j,i)->setTextAlignment(Qt::AlignVCenter);
+                    }
+                    i++;//шаг
+                }
+                if (i==6)//для поля с кнопкой
+                    for (int k=0;k<20;k++){//максимум можно 20 шоу
+                        if (mas_bool[k])//для нумерации кнопок
+                            continue;
+                        else{
+                            mybutton *buy=new mybutton(this);//создаем собств класс кнопки
+                            buy->setText("Места");//надпись на кнопке
+                            QString str;
+                            str.setNum(k);
+                            buy->setWindowTitle("btn_buy"+str);//название виджета кнопки(используется для того чтобы понять, в какой строке была нажата кнопка
+                            connect(buy,SIGNAL(clicked(QString)),this,SLOT(showPlaces(QString)));//связываем переопределенный сигнал нажатия на кнопку с функцией
+                            ui->tableWidget->setCellWidget(j,i,buy);//вставляем кнопку в соответсвующую ячейку
+                            mas_bool[k]=true;
+                            break;
+                        }
+                    }
+                j++;//шаг
+            }
+            ui->tableWidget->hideColumn(6);
+
         }
         else{
             QMessageBox::information(addShow_form,"Плохо","Спектакль не был добавлен");
