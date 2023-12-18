@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1105</width>
+    <width>1166</width>
     <height>637</height>
    </rect>
   </property>
@@ -88,7 +88,7 @@
     <rect>
      <x>20</x>
      <y>100</y>
-     <width>1061</width>
+     <width>1121</width>
      <height>271</height>
     </rect>
    </property>
@@ -128,6 +128,12 @@
       </colorrole>
      </disabled>
     </palette>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>16</pointsize>
+    </font>
    </property>
    <property name="tabKeyNavigation">
     <bool>false</bool>

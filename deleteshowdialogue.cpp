@@ -53,7 +53,7 @@ void deleteShowDialogue::setList(QSqlQuery *qw){
         buy->setText("удалить");
         QString str;
         str.setNum(i);
-        buy->setWindowTitle("btn_del_"+str);
+        buy->setObjectName("btn_del_"+str);
         connect(buy,SIGNAL(clicked(QString)),this,SLOT(delShow(QString)));
         ui->tableWidget->setCellWidget(i,6,buy);
     }
@@ -70,7 +70,7 @@ void deleteShowDialogue::delShow(QString btn_name){
     }
     int row_of_btn=0;
     for (int i=0;i<ui->tableWidget->rowCount();i++)
-        if (ui->tableWidget->cellWidget(i,6)->windowTitle()==btn_name){
+        if (ui->tableWidget->cellWidget(i,6)->objectName()==btn_name){
             row_of_btn=i;
             break;
         }

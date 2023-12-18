@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)//конструктор
     }
     else{//создаем и подключаем базу данных
         db= new QSqlDatabase(QSqlDatabase::addDatabase("QPSQL"));
-        QString dbname="bd_for_i";
+        QString dbname="db_for_i";
         QString host="127.0.0.1";
         QString user="postgres";
         QString pwd="igra777";
@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)//конструктор
         *qw=db->exec("SELECT show_id,show_name,show_description,show_date,show_time,zal_id FROM public.show s\n");//выбираем нужные поля из таблицы спектаклей
         ui->tableWidget->setRowCount(qw->size());//устанавливаем количесвто строк, которые вернул запрос
         ui->tableWidget->setColumnCount(7);
-        QStringList list={"Идентификатор спектакля","Название спектакля","Описание","Дата","Время","Номер зала","Просмотр мест"};//названия столбцов
+        QStringList list={"Идентификатор","Название спектакля","Описание","Дата","Время","Номер зала","Просмотр мест"};//названия столбцов
         ui->tableWidget->setHorizontalHeaderLabels(list);
         for(int i=0;i<ui->tableWidget->rowCount();i++)
             for (int j=0;j<ui->tableWidget->columnCount();j++)
@@ -74,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent)//конструктор
                         buy->setText("Места");//надпись на кнопке
                         QString str;
                         str.setNum(k);
-                        buy->setWindowTitle("btn_buy"+str);//название виджета кнопки(используется для того чтобы понять, в какой строке была нажата кнопка
+                        buy->setObjectName("btn_buy"+str);//название виджета кнопки(используется для того чтобы понять, в какой строке была нажата кнопка
                         connect(buy,SIGNAL(clicked(QString)),this,SLOT(showPlaces(QString)));//связываем переопределенный сигнал нажатия на кнопку с функцией
                         ui->tableWidget->setCellWidget(j,i,buy);//вставляем кнопку в соответсвующую ячейку
                         mas_bool[k]=true;
@@ -84,6 +84,8 @@ MainWindow::MainWindow(QWidget *parent)//конструктор
             j++;//шаг
         }
     }
+    for (int i=0;i<20;i++)
+        mas_bool[i]=false;
     ui->tableWidget->hideColumn(6);//прячем столбец с кнопками
     //память для форм
     registration=new vhod_register(this);
@@ -156,13 +158,14 @@ void MainWindow::checkUser(QString login,QString password){//функция пр
                      "WHERE customer_login='"+login+"'");//запрос на получение всех данных о пользователе
         if (qw->next()){//если не пустой рез запроса
             if (qw->value(3).toString()==password){//проверка пароля
+                cur_user=qw->value(4).toInt();
                 QMessageBox::information(registration,"Ура","Вход выполнен!");//сообщение
                 registration->close();//закрытие диал окна
                 ui->tableWidget->show();//настойка интерфейса
                 *qw=db->exec("SELECT show_id,show_name,show_description,show_date,show_time,zal_id FROM public.show s\n");//выбираем нужные поля из таблицы спектаклей
                 ui->tableWidget->setRowCount(qw->size());//устанавливаем количесвто строк, которые вернул запрос
                 ui->tableWidget->setColumnCount(7);
-                QStringList list={"Идентификатор спектакля","Название спектакля","Описание","Дата","Время","Номер зала","Просмотр мест"};//названия столбцов
+                QStringList list={"Идентификатор","Название спектакля","Описание","Дата","Время","Номер зала","Просмотр мест"};//названия столбцов
                 ui->tableWidget->setHorizontalHeaderLabels(list);
                 for(int i=0;i<ui->tableWidget->rowCount();i++)
                     for (int j=0;j<ui->tableWidget->columnCount();j++)
@@ -201,7 +204,7 @@ void MainWindow::checkUser(QString login,QString password){//функция пр
                                 buy->setText("Места");//надпись на кнопке
                                 QString str;
                                 str.setNum(k);
-                                buy->setWindowTitle("btn_buy"+str);//название виджета кнопки(используется для того чтобы понять, в какой строке была нажата кнопка
+                                buy->setObjectName("btn_buy"+str);//название виджета кнопки(используется для того чтобы понять, в какой строке была нажата кнопка
                                 connect(buy,SIGNAL(clicked(QString)),this,SLOT(showPlaces(QString)));//связываем переопределенный сигнал нажатия на кнопку с функцией
                                 ui->tableWidget->setCellWidget(j,i,buy);//вставляем кнопку в соответсвующую ячейку
                                 mas_bool[k]=true;
@@ -210,14 +213,16 @@ void MainWindow::checkUser(QString login,QString password){//функция пр
                         }
                     j++;//шаг
                 }
+                for (int i=0;i<20;i++)
+                    mas_bool[i]=false;
 //            ui->tableWidget->hideColumn(6);//прячем столбец с кнопками
                 ui->label->show();
-                cur_user=qw->value(4).toInt();
+
                 ui->pushButton_login->setText("Выйти");
                 ui->label_2->hide();
                 ui->pushButton_register->hide();
-                qw->bindValue(":c_id",cur_user);
-                if (qw->value(2).toString()=="admin"){
+//                qw->bindValue(":c_id",cur_user);
+                if (cur_user==10){
                     setAdminInterface();
                     return;
                 }
@@ -300,21 +305,38 @@ void MainWindow::on_pushButton_register_clicked()
 void MainWindow::showPlaces(QString num_of_btn){//функция которая выводит схему зала
     if (db->isOpen()){
         bool mas[30];
+        for (int i=0;i<30;i++)
+            mas[i]=true;
         int num=num_of_btn.right(1).toInt();//номер строки
         kostil=num_of_btn;//
         int zal=ui->tableWidget->item(num,5)->text().toInt();
         int show=ui->tableWidget->item(num,0)->text().toInt();
-        qw->prepare("SELECT place_free FROM place\n"
-                    "WHERE zal_id=:number_zalu\n"
+        qw->prepare("SELECT place_id FROM public.ticket\n"
+                    "WHERE show_id=:show\n"
                     "ORDER BY place_id");
-        qw->bindValue(":number_zalu",zal);
+//        qw->prepare("SELECT place_free FROM place\n"
+//                    "WHERE zal_id=:number_zalu\n"
+//                    "ORDER BY place_id");
+        qw->bindValue(":show",show);
         if (qw->exec()){
-            qw->next();
-
-            for(int i=0;i<30;i++){
-                mas[i]=qw->value(0).toBool();
-                qw->next();
+//            int mas_places[30];
+//            for (int i=0;i<30;i++)
+//                mas_places[i]=0;
+//            int i=0;
+            while(qw->next()){
+                mas[qw->value(0).toInt()-((zal-1)*30)-1]=false;
+//                mas_places[i]=qw->value(0).toInt()-((zal-1)*30);
+//                i++;
             }
+
+//            for(int i=0;i<30;i++){
+//                if (mas_places[i]==i+1){
+//                    mas[i]=false;
+////                    qw->next();
+//                }
+//                else
+//                    mas[i]=true;
+//            }
         }
         zal_form->setMassiv(mas);//раскраска лейблов
         zal_form->setZalShow(zal,show);
@@ -386,8 +408,9 @@ void MainWindow::on_pushButton_basket_clicked()
                     "JOIN public.ticket t ON t.ticket_id=b.ticket_id\n"
                     "JOIN public.place p ON p.place_id=t.place_id\n"
                     "JOIN public.show s ON s.show_id=t.show_id\n"
-                    "WHERE t.customer_id="+QString::number(cur_user)+"\n"
+                    "WHERE t.customer_id=:user\n"
                     "ORDER BY t.ticket_id ASC");
+        qw->bindValue(":user",cur_user);
         if (qw->exec()){
             basket_form->setBasket(qw);
             basket_form->exec();
@@ -399,24 +422,24 @@ void MainWindow::on_pushButton_basket_clicked()
 
 void MainWindow::ticketDelete(int ticket_id){
     if (db->isOpen()){
-        qw->prepare("UPDATE place\n"
-                    "SET place_free=true\n"
-                    "WHERE place_id=(SELECT place_id FROM ticket WHERE ticket_id=:t_id)");
-        qw->bindValue(":t_id",ticket_id);
-        if (!qw->exec()){
-            QMessageBox::information(basket_form," Не Сработало"," НЕ СРАБОТАЛО");
-            return;
-        }
-        qw->prepare("DELETE FROM public.basket_tickets t\n"
-                    "USING public.basket b\n"
-                    "WHERE b.basket_id=t.basket_id AND t.ticket_id=:t_id AND b.customer_id="+QString::number(cur_user));
-        qw->bindValue(":t_id",ticket_id);
-        if (!qw->exec()){
-            QMessageBox::information(basket_form,"","Не сработал запрос на удаление билета из корзины");
-            return;
-        }
-        qw->prepare("DELETE FROM public.ticket t\n"
-                    "WHERE t.ticket_id=:t_id");
+//        qw->prepare("UPDATE place\n"
+//                    "SET place_free=true\n"
+//                    "WHERE place_id=(SELECT place_id FROM ticket WHERE ticket_id=:t_id)");
+//        qw->bindValue(":t_id",ticket_id);
+//        if (!qw->exec()){
+//            QMessageBox::information(basket_form," Не Сработало"," НЕ СРАБОТАЛО");
+//            return;
+//        }
+//        qw->prepare("DELETE FROM public.basket_tickets t\n"
+//                    "USING public.basket b\n"
+//                    "WHERE b.basket_id=t.basket_id AND t.ticket_id=:t_id AND b.customer_id="+QString::number(cur_user));
+//        qw->bindValue(":t_id",ticket_id);
+//        if (!qw->exec()){
+//            QMessageBox::information(basket_form,"","Не сработал запрос на удаление билета из корзины");
+//            return;
+//        }
+        qw->prepare("DELETE FROM public.ticket\n"
+                    "WHERE ticket_id=:t_id");
         qw->bindValue(":t_id",ticket_id);
         if (qw->exec()){
             QMessageBox::information(basket_form,"Хорошо","Билет был удален");
@@ -424,8 +447,9 @@ void MainWindow::ticketDelete(int ticket_id){
                         "JOIN public.ticket t ON t.ticket_id=b.ticket_id\n"
                         "JOIN public.place p ON p.place_id=t.place_id\n"
                         "JOIN public.show s ON s.show_id=t.show_id\n"
-                        "WHERE t.customer_id="+QString::number(cur_user)+"\n"
+                        "WHERE t.customer_id=:user\n"
                         "ORDER BY t.ticket_id ASC");
+            qw->bindValue(":user",cur_user);
             if (qw->exec()){
                 basket_form->setBasket(qw);
                 QStringList str=ui->pushButton_basket->text().split("(");
@@ -442,14 +466,14 @@ void MainWindow::ticketDelete(int ticket_id){
 void MainWindow::reservePlace(int num_place,int num_zal, int show_id){//функция резервации места
     int place_id=(num_zal-1)*30+num_place+1;//обсудить позднее
     if (db->isOpen()){
-        qw->prepare("UPDATE public.place\n"
-                    "SET place_free=false\n"//занимаем место
-                    "WHERE place_id=:p_id");
-        qw->bindValue(":p_id",place_id);
-        if (!qw->exec()){
-            QMessageBox::information(zal_form,"Не Сработало","НЕ СРАБОТАЛО");
-            return;
-        }
+//        qw->prepare("UPDATE public.place\n"
+//                    "SET place_free=false\n"//занимаем место
+//                    "WHERE place_id=:p_id");
+//        qw->bindValue(":p_id",place_id);
+//        if (!qw->exec()){
+//            QMessageBox::information(zal_form,"Не Сработало","НЕ СРАБОТАЛО");
+//            return;
+//        }
         qw->prepare("SELECT basket_id FROM public.basket\n"
                     "WHERE customer_id=:user_id");
         qw->bindValue(":user_id",cur_user);
@@ -500,7 +524,7 @@ void MainWindow::reservePlace(int num_place,int num_zal, int show_id){//функ
     }
 }
 void MainWindow::setAdminInterface(){
-//    ui->tableWidget->hide();
+    //    ui->tableWidget->hide();
     ui->label->hide();
     ui->label_admin->show();
     ui->pushButton_addShow->show();
@@ -531,6 +555,25 @@ void MainWindow::on_pushButton_deleteShow_clicked()
 
 void MainWindow::addSpectacle(QString name,QString description,QString date,QString time,int zal){
     if (db->isOpen()){
+        qw->prepare("SELECT COUNT(*) FROM public.show\n"
+                    "WHERE show_date=:date");
+        qw->bindValue(":date",date);
+        qw->exec();
+        qw->next();
+        if (qw->value(0).toInt()>4){
+            QMessageBox::information(addShow_form,"Внимание","На данный день в программе уже 4 спектакля.");
+            return;
+        }
+        qw->prepare("SELECT COUNT(*) FROM public.show\n"
+                    "WHERE show_name=:name AND show_date=:date");
+        qw->bindValue(":name",name);
+        qw->bindValue(":date",date);
+        qw->exec();
+        qw->next();
+        if (qw->value(0).toInt()>0){
+            QMessageBox::information(addShow_form,"Внимание","На данный день уже есть в программме данный спектакль.");
+            return;
+        }
         qw->prepare("INSERT INTO public.show(show_name,show_description,show_date,show_time,zal_id)\n"
                     "VALUES(:name,:desc,:date,:time,:zal)");
         qw->bindValue(":name",name);
@@ -583,7 +626,7 @@ void MainWindow::addSpectacle(QString name,QString description,QString date,QStr
                             buy->setText("Места");//надпись на кнопке
                             QString str;
                             str.setNum(k);
-                            buy->setWindowTitle("btn_buy"+str);//название виджета кнопки(используется для того чтобы понять, в какой строке была нажата кнопка
+                            buy->setObjectName("btn_buy"+str);//название виджета кнопки(используется для того чтобы понять, в какой строке была нажата кнопка
                             connect(buy,SIGNAL(clicked(QString)),this,SLOT(showPlaces(QString)));//связываем переопределенный сигнал нажатия на кнопку с функцией
                             ui->tableWidget->setCellWidget(j,i,buy);//вставляем кнопку в соответсвующую ячейку
                             mas_bool[k]=true;
@@ -592,6 +635,8 @@ void MainWindow::addSpectacle(QString name,QString description,QString date,QStr
                     }
                 j++;//шаг
             }
+            for (int i=0;i<20;i++)
+                mas_bool[i]=false;
             ui->tableWidget->hideColumn(6);
 
         }
@@ -606,7 +651,7 @@ void MainWindow::addSpectacle(QString name,QString description,QString date,QStr
 
 void MainWindow::delSpectacle(int show_id){
     if (db->isOpen()){
-        qw->clear();
+//        qw->clear();
         qw->prepare("DELETE FROM public.show\n"
                     "WHERE show_id=:show");
         qw->bindValue(":show",show_id);

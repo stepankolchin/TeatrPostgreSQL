@@ -158,7 +158,7 @@
      </palette>
     </property>
     <property name="cursor" stdset="0">
-     <cursorShape>ForbiddenCursor</cursorShape>
+     <cursorShape>ArrowCursor</cursorShape>
     </property>
     <property name="focusPolicy">
      <enum>Qt::NoFocus</enum>

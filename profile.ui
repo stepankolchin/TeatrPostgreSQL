@@ -227,6 +227,9 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit_surname">
    <property name="geometry">
@@ -236,6 +239,9 @@
      <width>161</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit_sex">
@@ -247,6 +253,9 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit_nick">
    <property name="geometry">
@@ -256,6 +265,9 @@
      <width>161</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_chpwd">

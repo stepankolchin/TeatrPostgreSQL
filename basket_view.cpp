@@ -10,6 +10,8 @@ basket_view::basket_view(QWidget *parent) :
     ui->tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     this->setWindowTitle("Список ваших билетов");
+
+
 //    ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 }
 
@@ -20,8 +22,8 @@ basket_view::~basket_view()
 
 void basket_view::setBasket(QSqlQuery *qw){
     ui->tableWidget->setRowCount(qw->size());
-    ui->tableWidget->setColumnCount(7);
-    QStringList list={"Номер билета","Номер ряда","Номер места","Название спектакля","Номер зала","Дата спектакля","Время спектакля"};
+    ui->tableWidget->setColumnCount(8);
+    QStringList list={"Номер билета","Номер ряда","Номер места","Название спектакля","Номер зала","Дата спектакля","Время спектакля","Удалить"};
     ui->tableWidget->setHorizontalHeaderLabels(list);
     for(int i=0;i<ui->tableWidget->rowCount();i++)
         for (int j=0;j<ui->tableWidget->columnCount();j++)
@@ -47,13 +49,17 @@ void basket_view::setBasket(QSqlQuery *qw){
         }
         j++;
     }
-    ui->tableWidget->insertColumn(7);
+//    ui->tableWidget->insertColumn(7);
+
     for (int i=0;i<ui->tableWidget->rowCount();i++){
+        if (ui->tableWidget->item(i,7)!=nullptr)
+            if (ui->tableWidget->cellWidget(i,7)!=nullptr)
+                continue;
         mybutton *buy=new mybutton(this);
         buy->setText("удалить");
         QString str;
         str.setNum(i);
-        buy->setWindowTitle("btn_del_"+str);
+        buy->setObjectName("btn_del_"+str);
         connect(buy,SIGNAL(clicked(QString)),this,SLOT(delTicket(QString)));
         ui->tableWidget->setCellWidget(i,7,buy);
     }
@@ -72,7 +78,7 @@ void basket_view::delTicket(QString btn_name){
     }
     int row_of_btn=0;
     for (int i=0;i<ui->tableWidget->rowCount();i++)
-        if (ui->tableWidget->cellWidget(i,7)->windowTitle()==btn_name){
+        if (ui->tableWidget->cellWidget(i,7)->objectName()==btn_name){
             row_of_btn=i;
             break;
         }

@@ -146,6 +146,9 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="maxLength">
+    <number>20</number>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit_pwd">
    <property name="geometry">
@@ -155,6 +158,9 @@
      <width>231</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="maxLength">
+    <number>10</number>
    </property>
    <property name="echoMode">
     <enum>QLineEdit::Password</enum>
