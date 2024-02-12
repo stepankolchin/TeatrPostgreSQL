@@ -73,6 +73,12 @@ private slots:
 
     void delSpectacle(int);//удаление спектаклей админом
 
+    void on_pushButton_reload_clicked();
+
+    void on_pushButton_redact_clicked();
+
+    void showChange(QString,QString,QString,QString,int);
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase *db;//указатель на объект базы данных

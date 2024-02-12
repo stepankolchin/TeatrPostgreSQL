@@ -25,7 +25,7 @@ profile::profile(QWidget *parent) :
 profile::~profile(){
     delete ui;
 }
-
+//сеттеры
 void profile::setName(QString name){
     ui->lineEdit_name->setText(name);
 }
@@ -42,7 +42,7 @@ void profile::setNick(QString nick){
 void profile::setPassword(QString pwd){
     ui->lineEdit_pwd->setText(pwd);
 }
-
+//геттеры
 QString profile::getName(){
     return ui->lineEdit_name->text();
 }
@@ -61,7 +61,7 @@ QString profile::getPassword(){
     return ui->lineEdit_pwd->text();
 }
 
-void profile::on_pushButton_chinf_clicked(){
+void profile::on_pushButton_chinf_clicked(){//настройка интерфейса при нажатии на кнопку изменть данные
     ui->pushButton_chinf->hide();
     ui->pushButton_saveinf->show();
     ui->lineEdit_name->setReadOnly(false);
@@ -79,7 +79,7 @@ void profile::on_pushButton_chinf_clicked(){
 }
 
 
-void profile::on_pushButton_saveinf_clicked(){
+void profile::on_pushButton_saveinf_clicked(){//настройка интерф, и передача данных в основной код программы при нажатии на сохранить изменения
     QString name=getName();
     QString surname=getSurname();
     QString sex=getSex();
@@ -101,7 +101,7 @@ void profile::on_pushButton_saveinf_clicked(){
     emit changeData(name,surname,sex,nick);
 }
 
-void profile::on_pushButton_chpwd_clicked(){
+void profile::on_pushButton_chpwd_clicked(){//изменить пароль, настр интерф
     ui->pushButton_chpwd->hide();
     ui->pushButton_saveinf_savepwd->show();
     ui->lineEdit_pwd->setReadOnly(false);
@@ -115,13 +115,13 @@ void profile::on_pushButton_chpwd_clicked(){
     ui->lineEdit_pwd->setFocusPolicy(Qt::StrongFocus);
 }
 
-void profile::on_pushButton_saveinf_savepwd_clicked(){//
+void profile::on_pushButton_saveinf_savepwd_clicked(){//отправление нового пароля в основной код
     ui->pushButton_chpwd->show();
     ui->pushButton_saveinf_savepwd->hide();
     QString pwd=getPassword();
     ui->lineEdit_pwd->setFocusPolicy(Qt::NoFocus);
     ui->label_6->hide();
-    ui->label_6->setText(ui->label_6->text().left(37));
+    ui->label_6->setText(ui->label_6->text().left(37));//для того чтобы изменять надпись сверху слева
     ui->pushButton_chinf->show();
     emit changePwd(pwd);
 }

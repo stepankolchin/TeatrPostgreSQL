@@ -11,7 +11,7 @@ schema_zal::schema_zal(QWidget *parent) ://конструктор
         for (int j=0;j<ui->gridLayout->columnCount();j++)
             if (ui->gridLayout->itemAtPosition(i,j)!=nullptr)//если ячейка существует
                 if (ui->gridLayout->itemAtPosition(i,j)->widget()!=nullptr){//если в ячеййке есть виджет(лейбл)
-                    mas[index]=ui->gridLayout->itemAtPosition(i,j)->widget();//(возможно без см)
+                    mas[index]=ui->gridLayout->itemAtPosition(i,j)->widget();
                     labelClicker *lblclicker=new labelClicker(ui->gridLayout->itemAtPosition(i,j)->widget());//ставим фильт событий для лейбла
                     mas_ev_filters[index]=lblclicker;//заносим этот фильтр в массив
                     connect(lblclicker,SIGNAL(placeReserved(int)),this,SLOT(reservePlace(int)));//соединяем сигнал из фильтра со слотом

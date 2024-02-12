@@ -20,7 +20,7 @@ basket_view::~basket_view()
     delete ui;
 }
 
-void basket_view::setBasket(QSqlQuery *qw){
+void basket_view::setBasket(QSqlQuery *qw){//устанавливаем список предметов из корзины
     ui->tableWidget->setRowCount(qw->size());
     ui->tableWidget->setColumnCount(8);
     QStringList list={"Номер билета","Номер ряда","Номер места","Название спектакля","Номер зала","Дата спектакля","Время спектакля","Удалить"};
@@ -65,12 +65,12 @@ void basket_view::setBasket(QSqlQuery *qw){
     }
 }
 
-void basket_view::on_pushButton_close_clicked()
+void basket_view::on_pushButton_close_clicked()//закрываем диалоговое окно
 {
     this->close();
 }
 
-void basket_view::delTicket(QString btn_name){
+void basket_view::delTicket(QString btn_name){//нажали на кнопку удалить билет
     int res=QMessageBox(QMessageBox::Icon::Information,"Внимание", "Вы точно хотите удалить данный билет?",
                         QMessageBox::Ok|QMessageBox::Cancel,this).exec();//спрашиваем хотим ли положить в корзину
     if (res!=QMessageBox::Ok){//если да
@@ -83,6 +83,6 @@ void basket_view::delTicket(QString btn_name){
             break;
         }
     int ticket_id=ui->tableWidget->item(row_of_btn,0)->text().toInt();
-    emit delTicket(ticket_id);
+    emit delTicket(ticket_id);//отправляем сигнал в основной код программы
 
 }

@@ -14,12 +14,12 @@ deleteShowDialogue::~deleteShowDialogue()
     delete ui;
 }
 
-void deleteShowDialogue::on_pushButton_Close_clicked()
+void deleteShowDialogue::on_pushButton_Close_clicked()//закрываем диал окно
 {
     this->close();
 }
 
-void deleteShowDialogue::setList(QSqlQuery *qw){
+void deleteShowDialogue::setList(QSqlQuery *qw){//устанавливаем список спектаклей
     ui->tableWidget->setRowCount(qw->size());
     ui->tableWidget->setColumnCount(6);
 
@@ -62,7 +62,7 @@ void deleteShowDialogue::setList(QSqlQuery *qw){
 }
 
 
-void deleteShowDialogue::delShow(QString btn_name){
+void deleteShowDialogue::delShow(QString btn_name){//функция для удаления
     int res=QMessageBox(QMessageBox::Icon::Information,"Внимание", "Вы точно хотите удалить данный спектакль? Это приведет к удалению всех существующих билетов.",
                         QMessageBox::Ok|QMessageBox::Cancel,this).exec();//спрашиваем хотим ли положить в корзину
     if (res!=QMessageBox::Ok){//если да
@@ -75,6 +75,7 @@ void deleteShowDialogue::delShow(QString btn_name){
             break;
         }
     int show_id=ui->tableWidget->item(row_of_btn,0)->text().toInt();
-    emit deleteShow(show_id);
+    emit deleteShow(show_id);//отправляем сигнал в основной код программы
+    this->close();//можно выключить если захочется
 
 }

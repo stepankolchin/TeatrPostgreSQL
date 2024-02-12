@@ -12,7 +12,7 @@ vhod_register::~vhod_register(){
     delete ui;
 }
 
-void vhod_register::on_pushButton_login_clicked()
+void vhod_register::on_pushButton_login_clicked()//нажали на кнопку логин
 {
     if (ui->lineEdit_login->text().isEmpty()){
         QMessageBox::warning(this,"Внимание","Поле 'Логин' не должно быть пустым!",QMessageBox::Ok);
@@ -27,13 +27,13 @@ void vhod_register::on_pushButton_login_clicked()
     emit logining(login,pwd);
 }
 
-void vhod_register::on_pushButton_close_clicked()
+void vhod_register::on_pushButton_close_clicked()//закрываем диал окно
 {
     clear();
     this->close();
 }
 
-void vhod_register::on_pushButton_clicked(){
+void vhod_register::on_pushButton_clicked(){//нажали на кнопку зарегистрироваться
     if (ui->lineEdit_Name->text().isEmpty()){
         QMessageBox::warning(this,"Внимание","Поле 'Имя' не должно быть пустым!",QMessageBox::Ok);
         return;
@@ -66,7 +66,7 @@ void vhod_register::on_pushButton_clicked(){
     emit registration(name,surname,sex,login,pwd);
 }
 
-void vhod_register::clear(){
+void vhod_register::clear(){//очистка всех полей
     ui->lineEdit_Name->clear();
     ui->lineEdit_Surname->clear();
     ui->lineEdit_login->clear();
@@ -75,11 +75,11 @@ void vhod_register::clear(){
     ui->lineEdit_new_pwd_2->clear();
     ui->lineEdit_pwd->clear();
 }
-void vhod_register::closeEvent(QCloseEvent *event){
+void vhod_register::closeEvent(QCloseEvent *event){//перехватываем событие закрытия чтобы перед этим очистить форму
     clear();
     event->accept();
 }
-void vhod_register::setModeRegistration(){
+void vhod_register::setModeRegistration(){//настр интерф в режим регистрации
     ui->lineEdit_login->hide();
     ui->lineEdit_pwd->hide();
     ui->pushButton_login->hide();
@@ -101,7 +101,7 @@ void vhod_register::setModeRegistration(){
     this->setWindowTitle("Регистрация");
 }
 
-void vhod_register::setModeLogin(){
+void vhod_register::setModeLogin(){//настр интерф в режим входа в профиль
     ui->lineEdit_login->show();
     ui->lineEdit_pwd->show();
     ui->pushButton_login->show();
